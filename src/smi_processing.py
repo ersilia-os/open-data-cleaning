@@ -2,6 +2,7 @@ from rdkit import Chem
 from standardiser import standardise
 import requests
 import numpy as np
+from sklearn.model_selection import train_test_split
 
 
 def standardise_smiles(smiles):
@@ -45,7 +46,12 @@ def pubchem_smiles(molname):
         canonical_smiles = np.nan
     return canonical_smiles
 
-
+def random_split(df, size):
+    indices = np.arange(len(df))
+    X_train, X_test, y_train, y_test, i_train, i_test = train_test_split(df["st_smiles"], df["bin"], indices, test_size=size, stratify=df["bin"])
+    train = df.iloc[i_train]
+    test = df.iloc[i_test]
+    return train, test
 
 
     
