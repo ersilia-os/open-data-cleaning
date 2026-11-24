@@ -13,12 +13,7 @@ does not belong in this repository.
 
 ## Datasets
 
-Get the data with [eosvc](https://github.com/ersilia-os/eosvc):
-
-```bash
-pip install eosvc
-eosvc download --path data
-```
+Original downloads are in `data/raw/` and cleaned files in `data/processed/`, one folder per dataset.
 
 | Dataset | Content | Source | Notebook |
 |---|---|---|---|
@@ -38,12 +33,13 @@ stored files are `pr_AID_*`, `pr_PUBCHEM*` and `cyp_all_*`. `esaki2019.ipynb` wr
 ## History
 
 Until November 2026 this repository stored its data with Git LFS. It was recreated from the
-analysis template to move the data to eosvc. The CO-ADD and quorum-sensing (QSI) biofilm datasets
+analysis template without Git LFS. Every file is well under GitHub's 100 MB limit, so the data is
+kept in git. The CO-ADD and quorum-sensing (QSI) biofilm datasets
 were dropped at that point.
 
 ## Repository structure
 
-The folder layout is described in [`CLAUDE.md`](CLAUDE.md). Git tracks the notebooks; eosvc tracks `data/` (public bucket, see `access.json`). Git LFS is not used.
+The folder layout is described in [`CLAUDE.md`](CLAUDE.md). Git tracks the notebooks and the data, as no file is too large for GitHub. Git LFS is not used.
 
 ## About the Ersilia Open Source Initiative
 
