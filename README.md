@@ -1,57 +1,49 @@
-# Ersilia's analysis template
+# Open data cleaning
 
-[![status](https://img.shields.io/badge/status-pending-red)](https://github.com/)
+[![status](https://img.shields.io/badge/status-ready-green)](https://github.com/)
 
-This repository provides a structured template for setting up new research analysis in Ersilia.
+Notebooks that clean and curate open datasets downloaded from public sources.
 
 ## Background
 
-Replace this paragraph with a short description of the project. This description should explain the background or context of the project, specifying collaborators.
+Ersilia collects public bioactivity and compound-library data to train and benchmark models. This
+repository keeps the original downloads, the cleaning notebooks and the cleaned datasets, so each
+dataset can be traced back to its source. All data here is public. Data shared by collaborators
+does not belong in this repository.
 
-## Project tracking
+## Datasets
 
-* [Meeting #1](https://example.com) - YYYY-MM-DD: Short description
-* ...
+Get the data with [eosvc](https://github.com/ersilia-os/eosvc):
 
-## Progress
+```bash
+pip install eosvc
+eosvc download --path data
+```
 
-### Step 1
+| Dataset | Content | Source | Notebook |
+|---|---|---|---|
+| `cyp450` | CYP2C9, CYP2C19, CYP2D6 and CYP3A4 inhibition, merged into `processed/cyp450/cyp_all_<cyp>.csv` | PubChem assays 1851, 410, 883, 884, 891 and 899; ChEMBL IC50 and Ki | `cyp450.ipynb` |
+| `esaki2019` | Metabolic stability (stable or unstable) of ChEMBL compounds | Esaki *et al.*, *Molecular Informatics* 2019 | `esaki2019.ipynb` |
+| `mmv_boxes` | Compound lists of the Pathogen Box (with *M. tuberculosis*, *P. falciparum* and HepG2 data), Malaria Box, Pandemic Response Box and Global Health Priority Box | Medicines for Malaria Venture (MMV) | `mmv_boxes.ipynb` |
+| `kinase_prom.csv` | SMILES with a binary activity label | Unknown: no notebook or record of origin | none |
 
-Describe what was done in step 1.
+The final CYP files (`cyp_all_<cyp>.csv`) were used to train the CYP models of the
+[H3D screening cascade](https://github.com/ersilia-os/h3d-screening-cascade-models) (eos7kpb).
 
-### Step 2
+**Known gaps:** some notebooks were edited after the stored files were made, so a few file names
+do not match. `cyp450.ipynb` writes `pr_aid1851_*`, `pr_pubchem_*` and `pr_cyp_all_*`, while the
+stored files are `pr_AID_*`, `pr_PUBCHEM*` and `cyp_all_*`. `esaki2019.ipynb` writes
+`pr_esaki2021.csv`, while the stored file is `pr_esaki2019.csv`. The stored files are the reference.
 
-Describe what was done in step 2.
+## History
+
+Until November 2026 this repository stored its data with Git LFS. It was recreated from the
+analysis template to move the data to eosvc. The CO-ADD and quorum-sensing (QSI) biofilm datasets
+were dropped at that point.
 
 ## Repository structure
 
-This repository is organized as follows:
-
-- **data/**
-  - **raw/** → Original, untouched datasets  
-  - **processed/** → Cleaned and transformed datasets  
-
-- **scripts/** → Standalone scripts for preprocessing or automation. Numbered in sequential order for running.
-
-- **notebooks/** → Jupyter notebooks for exploration and prototyping.
-
-- **assets/** → Images, figures, and other static resources  
-
-- **output/** → Results of the scripts, numbered by file or folder according to the scripts numbering  
-
-- **src/** → Core source code and reusable modules  
-
-- **tools/** → Helper utilities and development tools  
-
-- **docs/** → Project documentation and reports.
-
-- **tmp/** → Temporary files or intermediate outputs  
-
-The project is tracked in [GitHub](https://github.com/ersilia-os/) (code) and [EOSVC](https://github.com/ersilia-os/eosvc) (data):
-
-* Tracked by Git and linked to a GitHub repository: `scripts/`, `notebooks/`, `src/`, `tools/`, `docs/` and `assets/`.
-* Tracked by `eosvc` and linked to a public or private S3 bucket: only `data/` and `output/`. The `access.json` file records whether they are public or private.
-* Git LFS is not used. Files too large for Git (GitHub rejects files of 100 MiB or more) go in `data/` or `output/`, tracked by `eosvc`; keep files in `assets/` small.
+The folder layout is described in [`CLAUDE.md`](CLAUDE.md). Git tracks the notebooks; eosvc tracks `data/` (public bucket, see `access.json`). Git LFS is not used.
 
 ## About the Ersilia Open Source Initiative
 
